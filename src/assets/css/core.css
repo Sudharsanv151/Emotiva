@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input-field {
+    @apply w-full p-2 mt-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500;
+}
+
+.video-background {
+    position: fixed;
+    /* Fixed positioning for full-screen background */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Prevent overflow */
+    z-index: -1;
+    /* Place behind other content */
+}
+
+video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    /* Cover the area without distortion */
+}
