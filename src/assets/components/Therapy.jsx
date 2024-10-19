@@ -35,9 +35,12 @@ const Therapy = () => {
   };
 
   return (
-    <div className="py-96">
+    <div className="justify-center content-center h-auto w-auto py-44 ">
+      <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold mb-4 text-white text-center pb-9">
+        Get Personalized Suggestions
+      </h1>
       {!showRecommendations ? (
-        <form onSubmit={handleSubmit} className="w-[70rem] shared-container mx-auto max-w-md border-2 border-slate-400 bg-slate-800/60 p-10">
+        <form onSubmit={handleSubmit} className="w-4/5 shared-container mx-auto max-w-md border-2 rounded-lg border-slate-400 bg-slate-800/60 p-10 hover:scale-105">
           <h2 className="text-xl font-semibold text-white mb-4">How are you feeling today?</h2>
           <select value={emotion} onChange={(e) => setEmotion(e.target.value)} required className="input-field">
             <option value="" disabled>Select your emotion</option>
@@ -52,10 +55,10 @@ const Therapy = () => {
           {emotion && (
             <>
               <h3 className="text-white mt-4">Any patterns you've noticed?</h3>
-              <textarea 
-                value={patterns} 
-                onChange={(e) => setPatterns(e.target.value)} 
-                className="input-field h-24" 
+              <textarea
+                value={patterns}
+                onChange={(e) => setPatterns(e.target.value)}
+                className="input-field h-24"
               />
 
               {nlpFeedback && <div className="text-white mt-2">{nlpFeedback}</div>}
@@ -85,8 +88,8 @@ const Therapy = () => {
               </div>
             ))}
           </div>
-          <button 
-            onClick={() => setShowRecommendations(false)} 
+          <button
+            onClick={() => setShowRecommendations(false)}
             className="w-full mt-4 bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-800 transition"
           >
             Back to Therapy

@@ -6,7 +6,7 @@ const Navbar = () => {
 
   return (
     <div className="flex h-16 w-full px-8 bg-slate-900 ring-1 ring-white text-white 
-                    justify-between items-center sticky top-7 mx-auto rounded-2xl mt-7 
+                    justify-between items-center sticky z-50 top-7 mx-auto rounded-2xl mt-7 
                     max-w-screen-xl">
       {/* Brand */}
       <h1 className="text-2xl font-bold cursor-pointer" onClick={() => navigate('/')}>
@@ -39,6 +39,12 @@ const Navbar = () => {
               onClick={() => navigate('/journal')}
             >
               Journal
+            </li>
+            <li
+              className="list-none hover:text-green-500 cursor-pointer"
+              onClick={() => navigate('/about')}
+            >
+              About
             </li>
             <li
               className="list-none hover:text-green-500 cursor-pointer"

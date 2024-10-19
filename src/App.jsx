@@ -8,6 +8,7 @@ import Home from './assets/components/Home';
 import Signin from './assets/pages/Signin';
 import Videobg from './assets/components/Videobg';
 import Signup from './assets/pages/Signup';
+import About from './assets/components/About'
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/explore" element={<Explore />} />
             <Route path="/therapy" element={<Therapy />} />
             <Route path="/journal" element={<Journal />} />
+            <Route path="/about" element={<About />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Signin />} />
           </Routes>

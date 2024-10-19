@@ -5,7 +5,7 @@ const Journal = () => {
   return (
     <>
       <div>
-        <p>Blog</p>
+        <p></p>
       </div>
     </>
 

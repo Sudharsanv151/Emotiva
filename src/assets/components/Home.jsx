@@ -5,6 +5,7 @@ import Journal from './Journal';
 import Videobg from './Videobg'; 
 import Therapy from './Therapy';
 import Explore from './Explore'
+import About from './About';
 
 
 const Home = () => {
@@ -15,14 +16,14 @@ const Home = () => {
     };
 
     const handleAICoach = () => {
-        navigate('/ai-coach');
+        navigate('/therapy');
     };
 
     return (
         <>
         <div className=" h-screen text-white ">
             
-            <div className="p-28 ml-20 flex z-10  items-center">
+            <div className="p-7 ml-20 flex z-10  items-center">
                 <div className="container mx-auto px-4 py-16 sm:py-24 lg:py-32">
                     <div className="flex flex-col lg:flex-row items-center justify-between">
                         {/* Left Text Section */}
@@ -38,7 +39,7 @@ const Home = () => {
                                     onClick={handleAICoach}
                                     className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-full hover:bg-blue-100 transition duration-300 flex items-center justify-center"
                                 >
-                                    AI Coach
+                                    Our coach
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </button>
                                 <button
@@ -58,6 +59,7 @@ const Home = () => {
           <Explore/>
           <Therapy/>
           <Journal/>
+          <About/>
           </>
     );
 };
