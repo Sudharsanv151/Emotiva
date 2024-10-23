@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext.jsx';
 
 const Signin = () => {
@@ -10,7 +9,7 @@ const Signin = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
-//   const { setLogin, setUser } = useAuth();
+  const { login } = useAuth(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,26 +17,16 @@ const Signin = () => {
     setError('');
     setSuccess('');
 
-    try {
-      const result = await axios.post('https://bookstore-server-1.onrender.com/user/signin', { email, password });
+    const errorMessage = await login(email, password); 
+
+    if (errorMessage) {
+      setError(errorMessage); 
+    } else {
       setSuccess('Login successful!!!');
-      setLogin(true);
-      setUser(result.data?.user);
-
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
-
-    } catch (err) {
-      if (err.response && err.response.data) {
-        setError(err.response.data.message);
-      } else {
-        setError('Login failed. Please try again.');
-      }
-      console.log(err);
-    } finally {
-      setLoading(false);
+      navigate('/'); 
     }
+
+    setLoading(false);
   };
 
   return (
@@ -45,21 +34,14 @@ const Signin = () => {
       className="h-screen w-screen bg-cover bg-center relative flex justify-center items-center"
       style={{ backgroundImage: "url('/assets/img/others/Login_signup.jpg')" }}
     >
-      {/* Overlay */}
-      <div className=""></div>
-
-      {/* Form Section */}
       <form
         onSubmit={handleSubmit}
         className="relative z-10 w-[30rem] flex flex-col space-y-6 border-2 border-slate-400 bg-slate-800/60 p-10 rounded-lg shadow-lg"
       >
         <h1 className="text-center text-4xl font-bold text-white">Log In</h1>
-
-        {/* Error and Success Messages */}
         {error && <div className="text-center text-red-500">{error}</div>}
         {success && <div className="text-center text-green-500">{success}</div>}
-
-        {/* Email Input */}
+        
         <input
           type="email"
           placeholder="Email"
@@ -69,7 +51,6 @@ const Signin = () => {
           required
         />
 
-        {/* Password Input */}
         <input
           type="password"
           placeholder="Password"
@@ -79,7 +60,6 @@ const Signin = () => {
           required
         />
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="h-11 rounded-lg bg-indigo-700 text-white font-bold hover:bg-indigo-400 duration-300"
@@ -88,32 +68,19 @@ const Signin = () => {
           {loading ? 'Signing In...' : 'LOG IN'}
         </button>
 
-        {/* Forgot Password Link */}
-        <a
-          href="#"
-          className="text-center font-semibold text-gray-100 duration-100 hover:text-gray-400"
-        >
+        <Link to="#" className="text-center font-semibold text-gray-100 duration-100 hover:text-gray-400">
           FORGOT PASSWORD?
-        </a>
+        </Link>
 
-        {/* Redirect to Signup Page */}
         <p className="text-center text-white text-lg">
           Don't Have an Account?{' '}
-          <Link
-            to="/signup"
-            className="font-medium text-indigo-400 underline-offset-4 hover:text-blue-400 hover:underline"
-          >
+          <Link to="/signup" className="font-medium text-indigo-400 underline-offset-4 hover:text-blue-400 hover:underline">
             Signup
           </Link>
         </p>
 
-        {/* Continue without Login Link */}
         <p className="text-center text-white text-lg">
-          <Link
-            to="/"
-            onClick={() => setLogin(false)}
-            className="font-semibold text-gray-100 duration-100 hover:text-gray-400"
-          >
+          <Link to="/" onClick={() => login(null)} className="font-semibold text-gray-100 duration-100 hover:text-gray-400">
             Continue without Login
           </Link>
         </p>

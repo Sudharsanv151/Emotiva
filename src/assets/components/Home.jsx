@@ -6,6 +6,7 @@ import Videobg from './Videobg';
 import Therapy from './Therapy';
 import Explore from './Explore'
 import About from './About';
+import Footer from './Footer'
 
 
 const Home = () => {
@@ -51,7 +52,7 @@ const Home = () => {
                             </div>
                         </div>
 
-                        <div className="lg:w-1/2" />
+                        <div className="lg:w-1/2"/>
                     </div>
                 </div>
             </div>
@@ -60,6 +61,7 @@ const Home = () => {
           <Therapy/>
           <Journal/>
           <About/>
+          <Footer/>
           </>
     );
 };
