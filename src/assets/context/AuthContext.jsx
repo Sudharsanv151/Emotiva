@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,24 +10,35 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = async (email, password) => {
     try {
       const result = await axios.post('http://localhost:5000/user/signin', { email, password });
-      setUser(result.data.user);
-      return null; 
+      const userData = {
+        name: result.data.user,
+        email: result.data.email
+      };
+      
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return null;
     } catch (error) {
-      if (error.response && error.response.data) {
-        return error.response.data.message; 
-      }
-      return 'Login failed. Please try again.'; 
+      return error.response?.data.message || 'Login failed. Please try again.';
     }
   };
 
   const logout = () => {
-    setUser(null); 
-    navigate('/signin'); 
+    setUser(null);
+    localStorage.removeItem('user');
+    navigate('/signin');
   };
 
   const value = {

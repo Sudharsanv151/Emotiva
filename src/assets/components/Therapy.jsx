@@ -1,101 +1,284 @@
 import React, { useState } from 'react';
+import { ExternalLink, Smile, Frown, Edit, Users, CheckCircle, Clock } from 'lucide-react';
 
 const Therapy = () => {
-  const [emotion, setEmotion] = useState('');
-  const [patterns, setPatterns] = useState('');
-  const [openToNewStrategies, setOpenToNewStrategies] = useState('');
+  const [surveyData, setSurveyData] = useState({
+    emotion: '',
+    intensity: 0,
+    socialInteraction: '',
+    productivity: '',
+    overwhelmed: '',
+    recentThoughts: '',
+    context: '',
+    duration: '',
+  });
+
   const [showRecommendations, setShowRecommendations] = useState(false);
-  const [recommendations, setRecommendations] = useState([]);
-  const [nlpFeedback, setNlpFeedback] = useState('');
+  const [showFallbackAlert, setShowFallbackAlert] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const staticRecommendations = [
+    {
+      id: 1,
+      type: 'iframe',
+      content: "Understanding Emotional Maturity",
+      url: "https://positivepsychology.com/emotional-maturity/",
+      height: "500"
+    },
+    {
+      id: 2,
+      type: 'image',
+      content: "Motivational Quote",
+      imageUrl: "https://www.careerexperts.co.uk/wp-content/uploads/2017/07/Motivational-quotes-for-work-3-min.jpg",
+      altText: "Motivational quote: Believe you can and you're halfway there"
+    },
+    {
+      id: 3,
+      type: 'spotify',
+      content: '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1pzvpQEmn2TDm65aaBfIdi?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>',
+      url: 'https://open.spotify.com/track/1pzvpQEmn2TDm65aaBfIdi'
+    },
+  ];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSurveyData((prevData) => ({
+      ...prevData,
+      [name]: name === 'intensity' ? parseFloat(value) || 0 : value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setShowRecommendations(true);
+  };
 
-    try {
-      // Send patterns to Flask backend
-      const response = await fetch('http://localhost:5000/api/recommendations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ patterns }),
-      });
+  const handleIframeError = () => {
+    setShowFallbackAlert(true);
+  };
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setNlpFeedback(`Your patterns suggest a ${data.sentiment} sentiment.`);
-        setRecommendations(data.recommendations);
-        setShowRecommendations(true);
-      } else {
-        setNlpFeedback(`Error: ${data.error || 'Failed to analyze patterns.'}`);
-      }
-    } catch (error) {
-      setNlpFeedback('Failed to connect to the server.');
-      console.error(error);
+  const renderRecommendation = (rec, index) => {
+    switch (rec.type) {
+      case 'iframe':
+        return (
+          <div key={rec.id} className="mb-6">
+            <div className="flex justify-between items-center text-white mb-2">
+              <span>Read this!</span>
+              <button
+                onClick={() => window.open(rec.url, '_blank', 'noopener,noreferrer')}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Open Website <ExternalLink size={16} />
+              </button>
+            </div>
+            <div className="relative">
+              <iframe
+                src={rec.url}
+                className="w-full rounded-lg"
+                height={rec.height}
+                onError={handleIframeError}
+                sandbox="allow-same-origin allow-scripts"
+                loading="lazy"
+              />
+              {showFallbackAlert && (
+                <div className="mt-4 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500">
+                  <p className="text-yellow-200">
+                    Unable to load the content in iframe. Please{' '}
+                    <a 
+                      href={rec.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-yellow-100"
+                    >
+                      visit the website directly
+                    </a>
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      case 'image':
+        return (
+          <div key={rec.id} className="mb-6">
+            <div className="text-white mb-2">Some Motivation for you!</div>
+            <img 
+              src={rec.imageUrl}
+              alt={rec.altText}
+              className="w-full rounded-lg"
+            />
+          </div>
+        );
+      case 'spotify':
+        return (
+          <div key={rec.id} className="mb-6">
+            <div className="flex justify-between items-center text-white mb-2">
+              <span>Listen to this once!</span>
+              <button
+                onClick={() => window.open(rec.url, '_blank', 'noopener,noreferrer')}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Open in Spotify <ExternalLink size={16} />
+              </button>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: rec.content }} />
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <div className="justify-center content-center h-auto w-auto py-44 ">
-      <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold mb-4 text-white text-center pb-9">
-        Get Personalized Suggestions
-      </h1>
-      {!showRecommendations ? (
-        <form onSubmit={handleSubmit} className="w-4/5 shared-container mx-auto max-w-md border-2 rounded-lg border-slate-400 bg-slate-800/60 p-10 hover:scale-105">
-          <h2 className="text-xl font-semibold text-white mb-4">How are you feeling today?</h2>
-          <select value={emotion} onChange={(e) => setEmotion(e.target.value)} required className="input-field">
-            <option value="" disabled>Select your emotion</option>
-            <option value="happy">Happy</option>
-            <option value="neutral">Neutral</option>
-            <option value="sad">Sad</option>
-            <option value="stressed">Stressed</option>
-            <option value="anxious">Anxious</option>
-            <option value="angry">Angry</option>
-          </select>
+    <div className="flex justify-center items-center min-h-screen p-6">
+      <div className="w-full max-w-4xl">
+        <h1 className="text-3xl font-bold text-white text-center mb-6">Tell Us How You Feel</h1>
 
-          {emotion && (
-            <>
-              <h3 className="text-white mt-4">Any patterns you've noticed?</h3>
-              <textarea
-                value={patterns}
-                onChange={(e) => setPatterns(e.target.value)}
-                className="input-field h-24"
-              />
-
-              {nlpFeedback && <div className="text-white mt-2">{nlpFeedback}</div>}
-
-              <h3 className="text-white mt-4">Open to trying new strategies?</h3>
-              <select value={openToNewStrategies} onChange={(e) => setOpenToNewStrategies(e.target.value)} required className="input-field">
-                <option value="" disabled>Select your response</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="maybe">Maybe</option>
-              </select>
-
-              <button type="submit" className="w-full mt-4 bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-800 transition">
-                Submit
-              </button>
-            </>
-          )}
-        </form>
-      ) : (
-        <div className="shared-container mx-auto w-full max-w-md bg-white/20 p-6 rounded-lg shadow-lg backdrop-blur-md">
-          <h3 className="text-xl font-semibold text-white mb-4">Follow these recommendations:</h3>
-          <div className="space-y-4">
-            {recommendations.map((rec, index) => (
-              <div key={index} className="bg-white/10 p-4 rounded-lg">
-                {rec.type === 'meme' && <img src={rec.content} alt="Recommended meme" className="w-full rounded-lg" />}
-                {rec.type === 'practice' && <p className="text-white font-semibold">{rec.content}</p>}
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => setShowRecommendations(false)}
-            className="w-full mt-4 bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-800 transition"
+        {!showRecommendations ? (
+          <form
+            onSubmit={handleSubmit}
+            className="bg-slate-800/40 ring-1 ring-slate-300 p-8 rounded-lg shadow-lg"
           >
-            Back to Therapy
-          </button>
-        </div>
-      )}
+            <div className="flex items-center gap-4 mb-6">
+              <Smile size={24} className="text-white" />
+              <h2 className="text-xl font-semibold text-white">How Are You Feeling?</h2>
+            </div>
+            <select
+              name="emotion"
+              value={surveyData.emotion}
+              onChange={handleChange}
+              required
+              className="input-field w-full mb-4"
+            >
+              <option value="" disabled>Select your emotion</option>
+              <option value="happy">Happy</option>
+              <option value="neutral">Neutral</option>
+              <option value="sad">Sad</option>
+              <option value="stressed">Stressed</option>
+              <option value="anxious">Anxious</option>
+              <option value="angry">Angry</option>
+            </select>
+
+            <div className="flex items-center gap-4 mb-6">
+              <Frown size={24} className="text-white" />
+              <h3 className="text-white">How intense is your feeling?</h3>
+            </div>
+            <input
+              type="range"
+              name="intensity"
+              min="0"
+              max="10"
+              value={surveyData.intensity}
+              onChange={handleChange}
+              className="w-full mb-4"
+            />
+
+            <div className="flex items-center gap-4 mb-6">
+              <Users size={24} className="text-white" />
+              <h3 className="text-white">Social Interaction Today</h3>
+            </div>
+            <select
+              name="socialInteraction"
+              value={surveyData.socialInteraction}
+              onChange={handleChange}
+              required
+              className="input-field w-full mb-4"
+            >
+              <option value="" disabled>Select</option>
+              <option value="rarely">Rarely</option>
+              <option value="occasionally">Occasionally</option>
+              <option value="frequently">Frequently</option>
+            </select>
+
+            <div className="flex items-center gap-4 mb-6">
+              <CheckCircle size={24} className="text-white" />
+              <h3 className="text-white">Were you productive today?</h3>
+            </div>
+            <select
+              name="productivity"
+              value={surveyData.productivity}
+              onChange={handleChange}
+              required
+              className="input-field w-full mb-4"
+            >
+              <option value="" disabled>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unsure">Unsure</option>
+            </select>
+
+            <div className="flex items-center gap-4 mb-6">
+              <Edit size={24} className="text-white" />
+              <h3 className="text-white">Do you feel overwhelmed?</h3>
+            </div>
+            <select
+              name="overwhelmed"
+              value={surveyData.overwhelmed}
+              onChange={handleChange}
+              required
+              className="input-field w-full mb-4"
+            >
+              <option value="" disabled>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+
+            <div className="flex items-center gap-4 mb-6">
+              <Clock size={24} className="text-white" />
+              <h3 className="text-white">Recent Thoughts</h3>
+            </div>
+            <textarea
+              name="recentThoughts"
+              value={surveyData.recentThoughts}
+              onChange={handleChange}
+              placeholder="Describe your recent thoughts..."
+              className="input-field w-full mb-4"
+              rows="4"
+            />
+
+            <div className="flex items-center gap-4 mb-6">
+              <Clock size={24} className="text-white" />
+              <h3 className="text-white">Any Specific Context?</h3>
+            </div>
+            <textarea
+              name="context"
+              value={surveyData.context}
+              onChange={handleChange}
+              placeholder="Is there any context you'd like to mention?"
+              className="input-field w-full mb-4"
+              rows="4"
+            />
+
+            <div className="flex items-center gap-4 mb-6">
+              <Clock size={24} className="text-white" />
+              <h3 className="text-white">How long have you been feeling this way?</h3>
+            </div>
+            <input
+              type="text"
+              name="duration"
+              value={surveyData.duration}
+              onChange={handleChange}
+              className="input-field w-full mb-4"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded mt-6 hover:bg-blue-700 transition"
+            >
+              Submit
+            </button>
+          </form>
+        ) : (
+          <div>
+            {staticRecommendations.map(renderRecommendation)}
+            <button
+              onClick={() => setShowRecommendations(false)}
+              className="w-full bg-red-600 text-white py-2 px-4 rounded mt-6 hover:bg-red-700 transition"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
