@@ -10,6 +10,7 @@ import Signup from './assets/pages/Signup';
 import About from './assets/components/About';
 import { AuthProvider } from './assets/context/AuthContext';
 import Footer from './assets/components/Footer';
+import Profile from './assets/components/Profile'
 
 const AppContent = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const AppContent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} /> 
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer /> 
     </>
