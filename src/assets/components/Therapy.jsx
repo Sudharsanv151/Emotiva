@@ -34,7 +34,7 @@ const Therapy = () => {
         setError(null);
 
         try {
-            const recommendationsResponse = await axios.post('http://localhost:5000/recommend', surveyData);
+            const recommendationsResponse = await axios.post('https://emotiva-server.onrender.com/recommend', surveyData);
             console.log("Response received:", recommendationsResponse.data);
             setRecommendations(recommendationsResponse.data.content);
             setShowRecommendations(true);

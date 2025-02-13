@@ -16,7 +16,7 @@ const Journals = () => {
 
   const fetchJournals = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/journals/get', { email: user.email });
+      const response = await axios.post('https://emotiva-server.onrender.com/journals/get', { email: user.email });
       setJournals(response.data.journals);
     } catch (error) {
       console.error('Error fetching journals:', error);
@@ -38,7 +38,7 @@ const Journals = () => {
     };
 
     try {
-      await axios.post('http://localhost:5000/journals/add', journalData);
+      await axios.post('https://emotiva-server.onrender.com/journals/add', journalData);
       setShowSuccessPopup(true);
       setNewJournal({ title: '', content: '' });
       fetchJournals();
@@ -50,7 +50,7 @@ const Journals = () => {
 
   const deleteJournal = async (journalId) => {
     try {
-      await axios.delete(`http://localhost:5000/journals/delete/${journalId}`);
+      await axios.delete(`https://emotiva-server.onrender.com/journals/delete/${journalId}`);
       fetchJournals();
     } catch (error) {
       console.error('Error deleting journal:', error.response ? error.response.data : error.message);
@@ -67,7 +67,7 @@ const Journals = () => {
     if (!selectedJournal) return;
 
     try {
-      await axios.put(`http://localhost:5000/journals/update/${selectedJournal._id}`, {
+      await axios.put(`https://emotiva-server.onrender.com/journals/update/${selectedJournal._id}`, {
         title: newJournal.title,
         content: newJournal.content,
       });

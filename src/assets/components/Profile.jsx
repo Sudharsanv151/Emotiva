@@ -37,7 +37,7 @@ const Profile = () => {
 
         try {
             setIsLoading(true);
-            const response = await axios.get(`http://localhost:5000/api/profile/${user.email}`);
+            const response = await axios.get(`https://emotiva-server.onrender.com/api/profile/${user.email}`);
            
             setProfile(prevProfile => ({
                 ...prevProfile,
@@ -70,7 +70,7 @@ const Profile = () => {
         setErrorMessage('');
         
         try {
-            await axios.put(`http://localhost:5000/user/update/${user.email}`, profile);
+            await axios.put(`https://emotiva-server.onrender.com/user/update/${user.email}`, profile);
             setSuccessMessage('Profile updated successfully!');
             setEditing(false);
         } catch (error) {

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const result = await axios.post('http://localhost:5000/user/signin', { email, password });
+      const result = await axios.post('https://emotiva-server.onrender.com/user/signin', { email, password });
       const userData = {
         name: result.data.user,
         email: result.data.email
