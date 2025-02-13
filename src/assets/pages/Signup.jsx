@@ -29,7 +29,7 @@ const Signup = () => {
       login(result.data?.user); 
 
       setTimeout(() => {
-        navigate('/login'); 
+        navigate('/signin'); 
       }, 1500);
     } catch (err) {
       if (err.response && err.response.data) {
@@ -50,7 +50,7 @@ const Signup = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 w-[30rem] flex flex-col space-y-6 border-2 border-slate-600 bg-slate-800/60 p-10 rounded-lg shadow-lg"
+        className="relative z-10 sm:w-[26rem] md:w-[30rem] flex flex-col space-y-6 border-2 border-slate-600 bg-slate-800/60 p-10 rounded-lg shadow-lg"
       >
         <h1 className="text-center text-4xl font-bold text-white">Sign Up</h1>
 
@@ -96,7 +96,7 @@ const Signup = () => {
         <p className="text-center text-white text-lg">
           Already have an account?{' '}
           <Link
-            to="/login"
+            to="/signin"
             className="text-indigo-400 underline-offset-4 hover:underline hover:text-blue-400"
           >
             Sign in

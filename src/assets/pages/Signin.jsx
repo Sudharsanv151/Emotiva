@@ -36,7 +36,7 @@ const Signin = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 w-[30rem] flex flex-col space-y-6 border-2 border-slate-400 bg-slate-800/60 p-10 rounded-lg shadow-lg"
+        className="relative z-10 sm:w-[24rem] md:w-[30rem] flex flex-col space-y-6 border-2 border-slate-400 bg-slate-800/60 p-10 rounded-lg shadow-lg"
       >
         <h1 className="text-center text-4xl font-bold text-white">Log In</h1>
         {error && <div className="text-center text-red-500">{error}</div>}
@@ -68,9 +68,9 @@ const Signin = () => {
           {loading ? 'Signing In...' : 'LOG IN'}
         </button>
 
-        <Link to="#" className="text-center font-semibold text-gray-100 duration-100 hover:text-gray-400">
+        {/* <Link to="#" className="text-center font-semibold text-gray-100 duration-100 hover:text-gray-400">
           FORGOT PASSWORD?
-        </Link>
+        </Link> */}
 
         <p className="text-center text-white text-lg">
           Don't Have an Account?{' '}

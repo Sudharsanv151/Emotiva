@@ -70,8 +70,7 @@ const Profile = () => {
         setErrorMessage('');
         
         try {
-            const response = await axios.put(`http://localhost:5000/user/update/${user.email}`, profile);
-            
+            await axios.put(`http://localhost:5000/user/update/${user.email}`, profile);
             setSuccessMessage('Profile updated successfully!');
             setEditing(false);
         } catch (error) {
@@ -86,88 +85,89 @@ const Profile = () => {
             }
         }
     };
+
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="h-screen flex items-center justify-center">
                 <div className="text-white">Loading profile...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center">
-            <div className="relative w-[30rem] flex flex-col space-y-6 border-2 border-slate-400 bg-slate-800/60 p-10 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold mb-6 text-center text-white">Profile</h1>
+        <div className="h-2/3 w-screen top-40 absolute inset-0 flex items-center justify-center">
+            <div className="w-[24rem] flex flex-col space-y-4 border border-gray-500 bg-slate-800/60 p-6 rounded-lg shadow-lg">
+                <h1 className="text-2xl font-bold text-center text-white">Profile</h1>
 
-                {successMessage && <div className="text-green-500 text-center mb-4">{successMessage}</div>}
-                {errorMessage && <div className="text-red-500 text-center mb-4">{errorMessage}</div>}
+                {successMessage && <div className="text-green-500 text-center">{successMessage}</div>}
+                {errorMessage && <div className="text-red-500 text-center">{errorMessage}</div>}
 
-                <div className="mb-4">
-                    <label className="block text-white font-bold mb-2">Name</label>
+                <div>
+                    <label className="block text-white font-bold">Name</label>
                     <input
                         type="text"
                         name="name"
                         value={profile.name}
                         onChange={handleInputChange}
                         disabled={!editing}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
                             editing ? 'bg-white border-blue-500' : 'bg-gray-200 border-gray-300'
                         }`}
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-white font-bold mb-2">Email</label>
+                <div>
+                    <label className="block text-white font-bold">Email</label>
                     <input
                         type="email"
                         name="email"
                         value={profile.email}
                         disabled
-                        className="w-full px-4 py-2 border rounded-lg bg-gray-200 border-gray-300 cursor-not-allowed"
+                        className="w-full px-3 py-2 border rounded-md bg-gray-200 border-gray-300 cursor-not-allowed"
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-white font-bold mb-2">Phone</label>
+                <div>
+                    <label className="block text-white font-bold">Phone</label>
                     <input
                         type="text"
                         name="phone"
                         value={profile.phone || ''}
                         onChange={handleInputChange}
                         disabled={!editing}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
                             editing ? 'bg-white border-blue-500' : 'bg-gray-200 border-gray-300'
                         }`}
-                        placeholder={!profile.phone && editing ? 'Add your phone number' : ''}
+                        placeholder={!profile.phone && editing ? 'Add phone number' : ''}
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-white font-bold mb-2">Address</label>
+                <div>
+                    <label className="block text-white font-bold">Address</label>
                     <input
                         type="text"
                         name="address"
                         value={profile.address || ''}
                         onChange={handleInputChange}
                         disabled={!editing}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
                             editing ? 'bg-white border-blue-500' : 'bg-gray-200 border-gray-300'
                         }`}
-                        placeholder={!profile.address && editing ? 'Add your address' : ''}
+                        placeholder={!profile.address && editing ? 'Add address' : ''}
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-white font-bold mb-2">Bio</label>
+                <div>
+                    <label className="block text-white font-bold">Bio</label>
                     <textarea
                         name="bio"
                         value={profile.bio || ''}
                         onChange={handleInputChange}
                         disabled={!editing}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
                             editing ? 'bg-white border-blue-500' : 'bg-gray-200 border-gray-300'
                         }`}
-                        placeholder={!profile.bio && editing ? 'Add a bio about yourself' : ''}
+                        placeholder={!profile.bio && editing ? 'Add a bio' : ''}
                     ></textarea>
                 </div>
 
@@ -176,13 +176,13 @@ const Profile = () => {
                         <>
                             <button
                                 onClick={handleSave}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-400"
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400"
                             >
                                 Save
                             </button>
                             <button
                                 onClick={() => setEditing(false)}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-400"
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400"
                             >
                                 Cancel
                             </button>
@@ -190,7 +190,7 @@ const Profile = () => {
                     ) : (
                         <button
                             onClick={() => setEditing(true)}
-                            className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-400 w-full"
+                            className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-400 w-full"
                         >
                             Edit Profile
                         </button>

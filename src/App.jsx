@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from './assets/components/Navbar';
 import Explore from './assets/components/Explore';
 import Therapy from './assets/components/Therapy';
@@ -10,16 +11,34 @@ import Signup from './assets/pages/Signup';
 import About from './assets/components/About';
 import { AuthProvider } from './assets/context/AuthContext';
 import Footer from './assets/components/Footer';
-import Profile from './assets/components/Profile'
+import Profile from './assets/components/Profile';
+
+// Scroll to section helper
+const ScrollToSection = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
+
+  return null;
+};
 
 const AppContent = () => {
   const location = useLocation();
-
   const showNavbar = !['/signin', '/signup'].includes(location.pathname);
 
   return (
     <>
       {showNavbar && <Navbar />}
+      <ScrollToSection />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,10 +47,10 @@ const AppContent = () => {
         <Route path="/journal" element={<Journal />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} /> 
+        <Route path="/signin" element={<Signin />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
-      <Footer /> 
+      {showNavbar && <Footer />}
     </>
   );
 };

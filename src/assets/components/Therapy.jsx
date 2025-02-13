@@ -47,15 +47,14 @@ const Therapy = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen p-6 ">
-            <div className="w-full max-w-xl bg-gray-800 p-8 rounded-lg shadow-xl">
-                <h1 className="text-3xl font-bold text-center text-white mb-8">Therapy Session</h1>
+        <div className="flex justify-center items-center min-h-screen p-4">
+            <div className="w-96 md:w-full  max-w-md ring-1 ring-slate-300 bg-slate-800/40 p-6 rounded-lg shadow-xl">
+                <h1 className="text-2xl font-bold text-center text-white mb-6">Therapy Session</h1>
 
                 {!showRecommendations ? (
-                    <form onSubmit={handleSubmit} className="space-y-6">
-
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="flex flex-col">
-                            <label className="text-white text-lg mb-2 flex items-center">
+                            <label className="text-white text-base mb-2 flex items-center">
                                 <FaChevronRight className="mr-2" />
                                 How do you feel emotionally?
                             </label>
@@ -63,7 +62,7 @@ const Therapy = () => {
                                 name="emotion"
                                 value={surveyData.emotion}
                                 onChange={handleChange}
-                                className="w-full bg-gray-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Select Emotion</option>
                                 {emotions.map((emotion) => (
@@ -72,7 +71,7 @@ const Therapy = () => {
                             </select>
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-white text-lg mb-2 flex items-center">
+                            <label className="text-white text-base mb-2 flex items-center">
                                 <FaChevronRight className="mr-2" />
                                 How intense is this feeling?
                             </label>
@@ -83,12 +82,12 @@ const Therapy = () => {
                                 max="10"
                                 value={surveyData.intensity}
                                 onChange={handleChange}
-                                className="w-full bg-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full bg-gray-700 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                            <div className="text-white text-center mt-2">{surveyData.intensity}</div>
+                            <div className="text-white text-center mt-1">{surveyData.intensity}</div>
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-white text-lg mb-2 flex items-center">
+                            <label className="text-white text-base mb-2 flex items-center">
                                 <FaChevronRight className="mr-2" />
                                 How often do you interact socially?
                             </label>
@@ -96,7 +95,7 @@ const Therapy = () => {
                                 name="socialInteraction"
                                 value={surveyData.socialInteraction}
                                 onChange={handleChange}
-                                className="w-full bg-gray-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Select Frequency</option>
                                 {socialInteractions.map((interaction) => (
@@ -105,7 +104,7 @@ const Therapy = () => {
                             </select>
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-white text-lg mb-2 flex items-center">
+                            <label className="text-white text-base mb-2 flex items-center">
                                 <FaChevronRight className="mr-2" />
                                 Are you being productive?
                             </label>
@@ -113,7 +112,7 @@ const Therapy = () => {
                                 name="productivity"
                                 value={surveyData.productivity}
                                 onChange={handleChange}
-                                className="w-full bg-gray-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Select</option>
                                 {productivities.map((productivity) => (
@@ -122,7 +121,7 @@ const Therapy = () => {
                             </select>
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-white text-lg mb-2 flex items-center">
+                            <label className="text-white text-base mb-2 flex items-center">
                                 <FaChevronRight className="mr-2" />
                                 Do you feel overwhelmed?
                             </label>
@@ -130,7 +129,7 @@ const Therapy = () => {
                                 name="overwhelmed"
                                 value={surveyData.overwhelmed}
                                 onChange={handleChange}
-                                className="w-full bg-gray-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Select</option>
                                 {overwhelmed.map((value) => (
@@ -140,28 +139,28 @@ const Therapy = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+                            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
                         >
                             Submit
                         </button>
                     </form>
                 ) : (
-                    <div className="space-y-6 ">
+                    <div className="space-y-4">
                         {loading ? (
                             <p className="text-white text-center">Loading recommendations...</p>
                         ) : error ? (
                             <p className="text-red-500 text-center">{error}</p>
                         ) : (
                             recommendations.map((rec, index) => (
-                                <div key={index} className="text-white mb-6 ">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <span className="text-lg font-semibold">Recommendation {index + 1}</span>
+                                <div key={index} className="text-white mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-base font-semibold">Recommendation {index + 1}</span>
                                         {rec.url && (
                                             <a
                                                 href={rec.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="bg-blue-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-600 transition duration-300"
+                                                className="bg-blue-500 text-white py-1 px-3 rounded-lg text-xs hover:bg-blue-600 transition duration-300"
                                             >
                                                 Open in Browser
                                             </a>
@@ -171,7 +170,7 @@ const Therapy = () => {
                                         <iframe
                                             src={rec.url}
                                             title={`Recommendation ${index}`}
-                                            height={400}
+                                            height={300}
                                             className="w-full border-none rounded-lg shadow-lg"
                                         />
                                     )}
@@ -179,24 +178,20 @@ const Therapy = () => {
                                         <img
                                             src={rec.imageUrl}
                                             alt={rec.altText}
-                                            height={400}
+                                            height={300}
                                             className="w-full rounded-lg shadow-lg"
                                         />
                                     )}
-                                    {rec.type === "spotify" && rec.url && (
-                                        <div className="mb-6">
-                                            <div className="flex justify-between items-center text-white mb-2">
+                                    {rec.type === "spotify" && (
+                                        <div className="mb-4">
+                                            <div className="flex justify-between items-center text-white mb-1">
                                                 <span>Listen to this once!</span>
-                                                
                                             </div>
-
-
                                             <div>
-                                            <div dangerouslySetInnerHTML={{ __html: rec.content}} />
+                                                <div dangerouslySetInnerHTML={{ __html: rec.content }} />
                                             </div>
                                         </div>
                                     )}
-
                                 </div>
                             ))
                         )}
@@ -212,7 +207,7 @@ const Therapy = () => {
                                 });
                                 setRecommendations([]);
                             }}
-                            className="mt-4 w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 transition duration-300"
+                            className="mt-4 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-300"
                         >
                             Try Again
                         </button>

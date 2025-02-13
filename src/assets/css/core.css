@@ -25,3 +25,12 @@ video {
     object-fit: cover;
     /* Cover the area without distortion */
 }
+
+@media (max-width: 768px) {
+    .md\\:hidden {
+      display: none;
+    }
+    .md\\:flex {
+      display: flex;
+    }
+  }
