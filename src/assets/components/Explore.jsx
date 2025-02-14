@@ -154,11 +154,11 @@ const Explore = () => {
   const [gameUrl, setGameUrl] = useState('');
 
   const exploreItems = [
-    { title: 'Mindful Breathing', description: 'Exercises to bring calmness to your mind', imageSrc: '/public/img/breathing.jpg' },
-    { title: 'Relaxation Games', description: 'De-stress with interactive games', imageSrc: '/public/img/game.jpg' },
-    { title: 'Micro Reads', description: 'Expand your awareness with micro reads', imageSrc: '/public/img/microreads.jpg' },
-    { title: 'Daily Affirmations', description: 'Break negative thinking habits', imageSrc: '/public/img/dailyaff.png' },
-    { title: 'Personalized Therapy', description: 'Book private therapy sessions', imageSrc: '/public/img/heartbrain.jpg' },
+    { title: 'Mindful Breathing', description: 'Exercises to bring calmness to your mind', imageSrc: '/img/breathing.jpg' },
+    { title: 'Relaxation Games', description: 'De-stress with interactive games', imageSrc: '/img/game.jpg' },
+    { title: 'Micro Reads', description: 'Expand your awareness with micro reads', imageSrc: '/img/microreads.jpg' },
+    { title: 'Daily Affirmations', description: 'Break negative thinking habits', imageSrc: '/img/dailyaff.png' },
+    { title: 'Personalized Therapy', description: 'Book private therapy sessions', imageSrc: '/img/heartbrain.jpg' },
   ];
 
   const mindfulBreathing = [
